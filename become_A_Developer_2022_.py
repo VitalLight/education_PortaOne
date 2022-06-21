@@ -10,22 +10,67 @@ import numpy as np
     6*. найбільшу послідовність чисел (які ідуть один за одним), яка зменьшується (опціонально)
 
 """
-# with open('10m.txt', 'r', encoding = 'utf-8') as file:
-#     f= file.readlines()
-#     # int_seqence= map(lambda x: int(x), f)
-#     int_seqence= list(map(lambda x: int(x), f))
-#     np_arr = np.array(int_seqence)
 
-# print(np.min(np_arr))
-# print(np.max(np_arr))
-# print(np.median(np_arr))
-# print(np.sum(np_arr)/len(np_arr))
-# print(np.mean(np_arr))
+def mediana(int_seqence):
+    if len(int_seqence)%2 == 0:
+        return (int_seqence[(len(int_seqence)/2)-1]+int_seqence[len(int_seqence)/2])/2
+    else:
+        # i=round(int(len(int_seqence)/2,0))
+        i=len(int_seqence)//2 + 1
+        return int_seqence [i]
 
+
+# ---------------
+def decrease_sequence(int_seqence):
+    help_char = []
+    main_arr = []
+    for char in int_seqence:
+        if len(help_char) == 0 or char < help_char[len(help_char) - 1]:
+            help_char.append(char)
+        else:
+            main_arr.append(help_char)
+            help_char = []
+    return len(sorted(main_arr, key=lambda x: len(x))[-1])
+
+
+# ---------
+def increase_sequence(int_seqence):
+    help_char = []
+    main_arr = []
+    for char in int_seqence:
+        if len(help_char) == 0 or char > help_char[len(help_char) - 1]:
+            help_char.append(char)
+        else:
+            main_arr.append(help_char)
+            help_char = []
+    # print('Найбільша зростаюча послідовність', len(sorted(main_arr, key=lambda x: len(x))[-1]))
+    return len(sorted(main_arr, key=lambda x: len(x))[-1])
+
+
+# ------ first way____________
+print('First_way')
+if __name__ == "__main__":
+
+    with open('10m.txt', 'r', encoding = 'utf-8') as file:
+        f= file.readlines()
+        int_seqence= list(map(lambda x: int(x), f))
+    print(' максимальне число в файлі = ', max(int_seqence))
+    print(' мінімальне число в файлі = ', min(int_seqence))
+    print(' медіана = ', mediana(int_seqence))
+    print(' середнє арифметичне значення = ', sum(int_seqence)/len(int_seqence))
+    print(' найбільша послідовність чисел (які ідуть один за одним), яка збільшується (опціонально) = ', increase_sequence(int_seqence))
+    print(' найбільша послідовність чисел (які ідуть один за одним), яка зменьшується (опціонально) = ', decrease_sequence(int_seqence))
+
+# ---------------------second_way-------------------------
+print('Second_way')
 f = np.loadtxt('10m.txt')
+print(' максимальне число в файлі = ', np.max(f))
+print(' мінімальне число в файлі = ', np.min(f))
+print(' медіана = ', mediana(f))
+print(' середнє арифметичне значення = ', np.mean(f))
+print(' найбільша послідовність чисел (які ідуть один за одним), яка збільшується (опціонально) = ', increase_sequence(f))
+print(' найбільша послідовність чисел (які ідуть один за одним), яка зменьшується (опціонально) = ', decrease_sequence(f))
 
-print(np.min(f))
-print(np.max(f))
-print(np.median(f))
-print(np.sum(f)/len(f))
-print(np.mean(f))
+
+
+
